@@ -1,0 +1,30 @@
+Creazione ambiente, procedo con una VM stand-alone per abbassare la complessità iniziale per lo sviluppo del progetto, rimane HLD che rappresenta il concetto del sw basato su cluster K8s. 
+VM:
+- OS: Debian 12.11.0-amd64
+- RAM: 8GB
+- Storage: 120GB
+
+Predisposizione ambiente DEV
+  apt update -y && apt upgrade -y && apt install sudo openssh-server vim git -y
+  vim /etc/ssh/sshd_config -- root login yes, porta 22, password authentication
+  systemctl restart ssh
+
+  ip addr --> rete privata 172.21.111.78 subnet mask 255.255.240.0 
+  vim /etc/network/interfaces
+    address 172.21.111.78 
+    netmask 255.255.240.0
+    gateway 172.21.96.1
+reboot
+
+installazione di go
+wget https://go.dev/dl/go1.24.5.linux-amd64.tar.gz 
+rm -rf /usr/local/go && tar -C /usr/local -xzf go1.24.5.linux-amd64.tar.gz
+export PATH=$PATH:/usr/local/go/bin
+go version
+
+
+apt install postgresql postgresql-contrib
+  sudo systemctl status postgresql
+sudo systemctl enable postgresql
+sudo -i -u postgres
+  \password postgres
